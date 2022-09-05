@@ -7,7 +7,7 @@ public class LineOfDeath : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.GetComponent<HeroLogic>())
+        if (other.gameObject.TryGetComponent(out HeroLogic heroLogic))
             _hero?.Invoke();
         else
             Destroy(other.gameObject, 0);

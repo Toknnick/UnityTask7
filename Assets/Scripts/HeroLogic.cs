@@ -63,12 +63,12 @@ public class HeroLogic : MonoBehaviour
     {
         _timeSinceAttack += Time.deltaTime;
 
-        if (_isGrounded == false && _groundSensor.IsGrounded())
+        if (_isGrounded == false && _groundSensor.IsGrounded)
         {
             _isGrounded = true;
             _animator.SetBool(_animatorHeroKnight.Grounded, _isGrounded);
         }
-        else if (_isGrounded == true && _groundSensor.IsGrounded() == false)
+        else if (_isGrounded == true && _groundSensor.IsGrounded == false)
         {
             _isGrounded = false;
             _animator.SetBool(_animatorHeroKnight.Grounded, _isGrounded);

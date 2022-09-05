@@ -2,20 +2,15 @@ using UnityEngine;
 
 public class GroundSensor : MonoBehaviour
 {
-    private bool _isGrounded = false;
-
-    public bool IsGrounded()
-    {
-        return _isGrounded;
-    }
+    public bool IsGrounded {get; private set;}
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        _isGrounded = true;
+        IsGrounded = true;
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        _isGrounded = false;
+        IsGrounded = false;
     }
 }

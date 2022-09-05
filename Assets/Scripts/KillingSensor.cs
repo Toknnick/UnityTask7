@@ -16,7 +16,7 @@ public class KillingSensor : MonoBehaviour
 
     private void Kill(Collider2D other)
     {
-        if (other.gameObject.GetComponent<Enemy>())
+         if (other.gameObject.TryGetComponent(out Enemy enemy))
             Destroy(other.gameObject, 0);
     }
 }
