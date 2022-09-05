@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name == "HeroKnight")
+        if (other.gameObject.GetComponent<HeroLogic>())
         {
             Destroy(gameObject, 0);
             _hero?.Invoke();

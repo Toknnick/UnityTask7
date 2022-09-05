@@ -5,11 +5,11 @@ public class LineOfDeath : MonoBehaviour
 {
     [SerializeField] private UnityEvent _hero;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.gameObject.name == "HeroKnight")
+        if (other.gameObject.GetComponent<HeroLogic>())
             _hero?.Invoke();
         else
-            Destroy(collision.gameObject, 0);
+            Destroy(other.gameObject, 0);
     }
 }

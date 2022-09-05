@@ -1,20 +1,29 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class AILogic : MonoBehaviour
 {
     [SerializeField] private Transform[] _movePoints;
     [SerializeField] private int _speed;
 
     private int _numberOfMovePoint;
+    private float _minDistanceToMovePoint;
+    private SpriteRenderer _sprite;
 
-    void Update()
+    private void Start()
     {
-        if (Vector2.Distance(transform.position, _movePoints[_numberOfMovePoint].position) < 0.2f)
+        _sprite = GetComponent<SpriteRenderer>();
+        _minDistanceToMovePoint = 0.2f;
+    }
+
+    private void Update()
+    {
+        if (Vector2.Distance(transform.position, _movePoints[_numberOfMovePoint].position) < _minDistanceToMovePoint)
         {
             if (transform.position.x > _movePoints[_numberOfMovePoint].position.x)
-                GetComponent<SpriteRenderer>().flipX = false;
+                _sprite.flipX = false;
             else
-                GetComponent<SpriteRenderer>().flipX = true;
+                _sprite.flipX = true;
 
             _numberOfMovePoint++;
         }

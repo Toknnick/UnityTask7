@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5687328309117092724}
   - component: {fileID: 65425450}
   - component: {fileID: 65425451}
+  - component: {fileID: 5484471491768799437}
   m_Layer: 0
   m_Name: Coin
   m_TagString: Untagged
@@ -138,7 +139,7 @@ MonoBehaviour:
   _hero:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7642951922758936570, guid: d4f17e892eaeece40a2ffff88033e395, type: 3}
         m_TargetAssemblyTypeName: HeroLogic, Assembly-CSharp
         m_MethodName: AddCoinsInBag
         m_Mode: 1
@@ -150,3 +151,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _heroScript: {fileID: 0}
+--- !u!50 &5484471491768799437
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5687328309107749044}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

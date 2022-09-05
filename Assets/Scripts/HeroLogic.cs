@@ -7,11 +7,13 @@ public class HeroLogic : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private int _countOfHealth;
+    [SerializeField] private GroundSensor _groundSensor;
 
+    private AnimatorHeroKnight _animatorHeroKnight;
     private Vector2 _teleportPosition;
     private Rigidbody2D _rigidbody2D;
-    private GroundSensor _groundSensor;
     private Animator _animator;
+    private SpriteRenderer _sprite;
     private float _moveHorizontal;
     private float _timeSinceAttack;
     private int _currentAttack;
@@ -25,7 +27,7 @@ public class HeroLogic : MonoBehaviour
 
         if (_countOfHealth == 0)
         {
-            _animator.SetTrigger("Death");
+            _animator.SetTrigger(_animatorHeroKnight.Death);
             HeroLogic heroLogic = GetComponent<HeroLogic>();
             heroLogic.enabled = false;
             Debug.Log("Игра окончена!");
@@ -34,7 +36,7 @@ public class HeroLogic : MonoBehaviour
         {
             _countOfHealth--;
             Debug.Log("У вас осталось " + _countOfHealth + "хп");
-            _animator.SetTrigger("Hurt");
+            _animator.SetTrigger(_animatorHeroKnight.Hurt);
         }
     }
 
@@ -48,11 +50,13 @@ public class HeroLogic : MonoBehaviour
     {
         _timeSinceAttack = 0.0f;
         _currentAttack = 0;
-        _groundSensor = transform.Find("Ground sensor").GetComponent<GroundSensor>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>(); 
+        _sprite = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
+        _animatorHeroKnight = GetComponent<AnimatorHeroKnight>();
         _teleportPosition = gameObject.transform.position;
         _isGrounded = false;
+        _isDefence = false;
     }
 
     private void Update()
@@ -62,12 +66,12 @@ public class HeroLogic : MonoBehaviour
         if (_isGrounded == false && _groundSensor.IsGrounded())
         {
             _isGrounded = true;
-            _animator.SetBool("Grounded", _isGrounded);
+            _animator.SetBool(_animatorHeroKnight.Grounded, _isGrounded);
         }
         else if (_isGrounded == true && _groundSensor.IsGrounded() == false)
         {
             _isGrounded = false;
-            _animator.SetBool("Grounded", _isGrounded);
+            _animator.SetBool(_animatorHeroKnight.Grounded, _isGrounded);
         }
 
         if (_isDefence == false)
@@ -75,23 +79,23 @@ public class HeroLogic : MonoBehaviour
             _moveHorizontal = Input.GetAxis("Horizontal");
 
             if (_moveHorizontal > 0)
-                GetComponent<SpriteRenderer>().flipX = false;
+                _sprite.flipX = false;
             else if (_moveHorizontal < 0)
-                GetComponent<SpriteRenderer>().flipX = true;
+                _sprite.flipX = true;
 
             if (_isGrounded == true && Mathf.Abs(_moveHorizontal) > Mathf.Epsilon)
-                _animator.SetInteger("AnimState", 1);
+                _animator.SetInteger(_animatorHeroKnight.AnimState, 1);
             else if (_isGrounded == true && Mathf.Abs(_moveHorizontal) < Mathf.Epsilon)
-                _animator.SetInteger("AnimState", 0);
+                _animator.SetInteger(_animatorHeroKnight.AnimState, 0);
 
             _rigidbody2D.velocity = new Vector2(_moveHorizontal * _speed, _rigidbody2D.velocity.y);
-            _animator.SetFloat("AirSpeedY", _rigidbody2D.velocity.y);
+            _animator.SetFloat(_animatorHeroKnight.AirSpeedY, _rigidbody2D.velocity.y);
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (_isGrounded == true)
                 {
-                    _animator.SetTrigger("Jump");
+                    _animator.SetTrigger(_animatorHeroKnight.Jump);
                     _rigidbody2D.velocity = new Vector2(_rigidbody2D.velocity.x, _jumpForce);
                 }
             }
@@ -103,7 +107,7 @@ public class HeroLogic : MonoBehaviour
                 if (_currentAttack > 3)
                     _currentAttack = 1;
 
-                _animator.SetTrigger("Attack" + _currentAttack);
+                _animator.SetTrigger(_animatorHeroKnight.ChangeAttackMod(_currentAttack));
                 _timeSinceAttack = 0.0f;
             }
         }
@@ -115,13 +119,13 @@ public class HeroLogic : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            _animator.SetTrigger("Block");
-            _animator.SetBool("IdleBlock", true);
+            _animator.SetTrigger(_animatorHeroKnight.Block);
+            _animator.SetBool(_animatorHeroKnight.IdleBlock, true);
             _isDefence = true;
         }
         else if (Input.GetMouseButtonUp(1))
         {
-            _animator.SetBool("IdleBlock", false);
+            _animator.SetBool(_animatorHeroKnight.IdleBlock, false);
             _isDefence = false;
         }
     }
