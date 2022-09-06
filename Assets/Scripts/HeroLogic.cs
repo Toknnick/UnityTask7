@@ -16,7 +16,10 @@ public class HeroLogic : MonoBehaviour
     private SpriteRenderer _sprite;
     private float _moveHorizontal;
     private float _timeSinceAttack;
+    private float _timeOfAttack;
     private int _currentAttack;
+    private int _startingAttack;
+    private int _maxCountOfAttack;
     private int _countOfCoins;
     private bool _isGrounded;
     private bool _isDefence;
@@ -48,8 +51,11 @@ public class HeroLogic : MonoBehaviour
 
     private void Start()
     {
-        _timeSinceAttack = 0.0f;
         _currentAttack = 0;
+        _maxCountOfAttack = 3;
+        _startingAttack = 1;
+        _timeOfAttack = 0.28f;
+        _timeSinceAttack = 0;
         _rigidbody2D = GetComponent<Rigidbody2D>();
         _sprite = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
@@ -100,15 +106,15 @@ public class HeroLogic : MonoBehaviour
                 }
             }
 
-            if (Input.GetMouseButtonDown(0) && _timeSinceAttack > 0.28f)
+            if (Input.GetMouseButtonDown(0) && _timeSinceAttack > _timeOfAttack)
             {
                 _currentAttack++;
 
-                if (_currentAttack > 3)
-                    _currentAttack = 1;
-
                 _animator.SetTrigger(_animatorHeroKnight.ChangeAttackMod(_currentAttack));
-                _timeSinceAttack = 0.0f;
+                _timeSinceAttack = 0;
+
+                if (_currentAttack > _maxCountOfAttack)
+                    _currentAttack = _startingAttack;
             }
         }
         else

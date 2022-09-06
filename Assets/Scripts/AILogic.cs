@@ -18,9 +18,6 @@ public class AILogic : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_movePoints[_numberOfMovePoint].position.x + "_movePoints[_numberOfMovePoint].position.x");
-        Debug.Log(transform.position.x + "transform.position.x");
-
         if (Vector2.Distance(transform.position, _movePoints[_numberOfMovePoint].position) < _minDistanceToMovePoint)
         {
             _sprite.flipX = transform.position.x <= _movePoints[_numberOfMovePoint].position.x;
